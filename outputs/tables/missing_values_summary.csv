@@ -1,0 +1,4 @@
+Dataset,Column,Missing Count,Missing Percentage
+customers,loyalty_tier,1386,57.75
+customers,skin_type,401,16.71
+orders,rating,80,0.8

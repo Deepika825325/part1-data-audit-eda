@@ -1,0 +1,7 @@
+Dataset,Rows,Columns
+customers,2400,9
+orders,10009,10
+tickets,1921,8
+web,2400,10
+campaigns,2400,5
+churn,2400,4
