@@ -1,0 +1,9 @@
+Hypothesis,Result,Strength
+Low Order Frequency,Supported,Strong
+Low Session Activity,Supported,Very Strong
+High Inactivity (Recency),Supported,Very Strong
+Loyalty Tier,Partially Supported,Moderate
+High Return Rate,Supported,Moderate
+Negative Sentiment,Not Supported,Weak
+Low Campaign Engagement,Supported,Strong
+Reopened Tickets,Not Supported,Weak
