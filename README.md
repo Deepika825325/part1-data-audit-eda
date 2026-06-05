@@ -1,23 +1,18 @@
 # D2C Customer Churn Intelligence
 
-## Part 1: Data Audit, EDA & Business Understanding
-
-![Python](https://img.shields.io/badge/Python-3.13-blue)
-![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-green)
-![EDA](https://img.shields.io/badge/EDA-Completed-orange)
-![Status](https://img.shields.io/badge/Project-Part--1%20Complete-success)
+## Part 1: Data Audit, Exploratory Data Analysis & Business Understanding
 
 ---
 
 # Project Overview
 
-Customer churn is one of the most critical business challenges for Direct-to-Consumer (D2C) companies. Before building machine learning models or designing retention strategies, it is essential to understand customer behavior, validate data quality, and identify patterns associated with churn.
+Customer churn is one of the most important challenges for Direct-to-Consumer (D2C) businesses. Before building predictive models or retention strategies, it is essential to understand customer behavior, validate data quality, and identify the factors most strongly associated with customer attrition.
 
-This project performs a complete data audit and exploratory analysis of customer, transaction, support, engagement, campaign, and churn datasets to uncover business insights and churn-risk indicators.
+This project performs a comprehensive data audit and exploratory analysis across customer, transaction, support, engagement, campaign, and churn datasets to uncover business insights and generate evidence-based churn hypotheses.
 
 ### Objective
 
-Identify behavioral patterns associated with customer churn and provide evidence-based recommendations for future retention initiatives.
+Identify behavioral patterns associated with customer churn and provide actionable recommendations for future retention initiatives.
 
 ### Prediction Target
 
@@ -29,300 +24,114 @@ Predict whether a customer will churn within the next **60 days**.
 
 ---
 
+# Project Highlights
+
+* Audited six business datasets containing customer, transaction, support, engagement, campaign, and churn information.
+* Created a unified customer-level analytical dataset.
+* Performed data quality validation, leakage assessment, and join integrity checks.
+* Evaluated eight churn-risk hypotheses using customer-level evidence.
+* Identified customer inactivity and declining engagement as the strongest churn indicators.
+* Produced business recommendations to support retention planning.
+
+---
+
 # Business Problem
 
-The company faces significant customer attrition but lacks visibility into:
+The company experiences significant customer attrition but lacks visibility into:
 
 * Why customers stop purchasing
 * Which engagement signals indicate churn risk
 * Which customer segments require intervention
-* What business actions should be prioritized before launching retention campaigns
+* What actions should be prioritized before model development
 
 This analysis addresses these questions using customer-level behavioral and operational data.
 
 ---
 
-# Analytical Questions
+# Results Snapshot
 
-This analysis aims to answer the following questions:
-
-1. What data quality issues exist in the available datasets?
-2. How do customers interact with the platform?
-3. What purchasing behaviors are associated with churn?
-4. Which engagement metrics best explain customer attrition?
-5. Which customer segments should be prioritized for retention campaigns?
-6. What business actions should be taken before predictive modeling?
-
----
-
-# Dataset Summary
-
-| Dataset              | Description                                  | Records |
-| -------------------- | -------------------------------------------- | ------: |
-| customers            | Customer profile and demographic information |   2,400 |
-| orders               | Historical order transactions                |  10,009 |
-| support_tickets      | Customer support interactions                |   1,921 |
-| web_events_snapshot  | Customer engagement metrics                  |   2,400 |
-| intervention_history | Marketing and campaign history               |   2,400 |
-| churn_labels         | Churn outcomes and dataset split information |   2,400 |
-
-All datasets are linked through a common customer identifier:
-
-```text
-customer_id
-```
-
----
-
-# Analysis Workflow
-
-## Phase 1 – Data Audit
-
-Performed:
-
-* Missing value assessment
-* Duplicate and duplicate-like record detection
-* Invalid value validation
-* Outlier detection
-* Join integrity validation
-* Date consistency assessment
-* Target leakage identification
-
----
-
-## Phase 2 – Exploratory Data Analysis
-
-Exploration was conducted across:
-
-### Customer Profile Analysis
-
-* Age groups
-* City tiers
-* Acquisition channels
-* Loyalty membership
-* Preferred categories
-
-### Order Analysis
-
-* Purchase frequency
-* Order value distribution
-* Product returns
-* Customer ratings
-* Delivery performance
-
-### Support Analysis
-
-* Issue categories
-* Resolution times
-* Customer sentiment
-* Ticket reopen rates
-
-### Web Activity Analysis
-
-* Sessions
-* Product views
-* Cart activity
-* Email engagement
-* Campaign clicks
-* Customer recency
-
-### Campaign Analysis
-
-* Campaign exposure
-* Priority segmentation
-
-### Churn Analysis
-
-* Churn distribution
-* Customer-level churn comparisons
-* Churn-risk hypothesis testing
-
----
-
-# Sample Visualizations
-
-## Churn Distribution
-
-![Churn Distribution](outputs/charts/churn_distribution.png)
-
----
-
-## Session Activity vs Churn
-
-![Session Activity](outputs/charts/hypothesis_2_sessions.png)
-
----
-
-## Customer Inactivity vs Churn
-
-![Customer Inactivity](outputs/charts/hypothesis_3_recency.png)
-
----
-
-# Key Findings
-
-## Strongest Churn Drivers
-
-| Rank | Driver                | Strength    |
-| ---- | --------------------- | ----------- |
-| 1    | Days Since Last Visit | Very Strong |
-| 2    | Session Activity      | Very Strong |
-| 3    | Purchase Frequency    | Strong      |
-| 4    | Campaign Engagement   | Strong      |
-| 5    | Return Rate           | Moderate    |
-
----
-
-## Hypothesis Summary
-
-| Hypothesis                | Result              |
-| ------------------------- | ------------------- |
-| Low Order Frequency       | Supported           |
-| Low Session Activity      | Supported           |
-| High Inactivity (Recency) | Supported           |
-| Loyalty Tier              | Partially Supported |
-| High Return Rate          | Supported           |
-| Negative Sentiment        | Not Supported       |
-| Low Campaign Engagement   | Supported           |
-| Reopened Tickets          | Not Supported       |
+| Metric                         |               Value |
+| ------------------------------ | ------------------: |
+| Customers Analyzed             |               2,400 |
+| Orders Analyzed                |              10,009 |
+| Support Tickets                |               1,921 |
+| Overall Churn Rate             |              46.96% |
+| Supported Hypotheses           |                   5 |
+| Partially Supported Hypotheses |                   1 |
+| Unsupported Hypotheses         |                   2 |
+| Strongest Churn Driver         | Customer Inactivity |
 
 ---
 
 # Executive Summary
 
-### Customers Who Churn:
+### Customers Who Churn
 
-* Visit the platform less frequently
-* Place fewer orders
-* Show lower campaign engagement
-* Remain inactive for longer periods
-* Exhibit slightly higher return rates
+* Average sessions decreased from **6.73** to **4.02**
+* Average order count decreased from **5.18** to **3.04**
+* Average days since last visit increased from **9.77** to **26.55**
+* Campaign engagement was lower
+* Return rates were slightly higher
 
-### Customers Who Stay:
+### Customers Who Stay
 
 * Visit more frequently
 * Purchase more often
-* Engage with campaigns
+* Engage with marketing campaigns
 * Maintain consistent platform activity
 
-The strongest predictor of churn observed during analysis was customer inactivity.
+The strongest predictor of churn observed during the analysis was customer inactivity.
 
 ---
 
-# Business Recommendations
+# How to Run
 
-## Priority 1 – Monitor Customer Inactivity
+### 1. Clone Repository
 
-Customers who stop visiting the platform should be identified early and targeted through re-engagement campaigns.
-
-### Suggested Actions
-
-* Personalized email campaigns
-* Product recommendations
-* Cart recovery programs
-* Time-sensitive offers
-
----
-
-## Priority 2 – Retain Low-Frequency Buyers
-
-Customers showing declining purchase frequency should receive proactive retention interventions.
-
-### Suggested Actions
-
-* Loyalty incentives
-* Personalized discounts
-* Repeat-purchase reminders
-
----
-
-## Priority 3 – Improve Loyalty Program Performance
-
-Gold and Platinum members demonstrated stronger retention than lower-tier customers.
-
-### Suggested Actions
-
-* Improve Silver-tier benefits
-* Accelerate progression toward higher tiers
-* Introduce exclusive rewards
-
----
-
-## Priority 4 – Increase Campaign Engagement
-
-Campaign engagement acts as an early warning signal for churn.
-
-### Suggested Actions
-
-* Improve campaign personalization
-* Optimize targeting strategies
-* Track campaign interaction metrics continuously
-
----
-
-# Repository Structure
-
-```text
-part1-data-audit-eda/
-│
-├── data/
-│
-├── notebooks/
-│   └── eda_audit.ipynb
-│
-├── outputs/
-│   ├── charts/
-│   └── tables/
-│
-├── reports/
-│   ├── business_memo.md
-│   └── data_quality_report.md
-│
-├── README.md
-├── requirements.txt
-└── .gitignore
+```bash
+git clone https://github.com/Deepika825325/part1-data-audit-eda.git
+cd part1-data-audit-eda
 ```
 
----
+### 2. Create Virtual Environment
 
-# Deliverables
+```bash
+python -m venv .venv
+```
 
-## Notebook
+### 3. Activate Environment
 
-### notebooks/eda_audit.ipynb
+Windows:
 
-Contains:
+```bash
+.venv\Scripts\activate
+```
 
-* Data loading
-* Data quality audit
-* Exploratory analysis
-* Customer-level feature aggregation
-* Churn analysis
-* Eight churn-risk hypotheses
-* Business interpretation
+Linux / Mac:
 
----
+```bash
+source .venv/bin/activate
+```
 
-## Reports
+### 4. Install Dependencies
 
-### reports/data_quality_report.md
+```bash
+pip install -r requirements.txt
+```
 
-Includes:
+### 5. Launch Notebook
 
-* Missing value analysis
-* Duplicate detection
-* Outlier assessment
-* Join validation
-* Leakage risks
-* Recommendations
+```bash
+jupyter notebook
+```
 
-### reports/business_memo.md
+Open:
 
-Includes:
+```text
+notebooks/eda_audit.ipynb
+```
 
-* Executive findings
-* Retention priorities
-* Business recommendations
+and run all cells from top to bottom.
 
 ---
 
@@ -334,7 +143,7 @@ Includes:
 outputs/charts/
 ```
 
-Contains all generated visualizations used during analysis.
+Contains all visualizations generated during the analysis.
 
 ## Tables
 
@@ -367,8 +176,8 @@ Key outputs include:
 
 # Conclusion
 
-The analysis indicates that customer churn is primarily driven by declining engagement and increasing inactivity rather than support-related factors.
+The analysis indicates that customer churn is primarily driven by declining engagement and increasing inactivity rather than customer support interactions.
 
-Customers who stop visiting the platform, purchase less frequently, and interact less with marketing campaigns represent the highest-risk churn segments.
+Customers who stop visiting the platform, reduce purchasing frequency, and disengage from marketing campaigns represent the highest-risk churn segment.
 
-These findings provide a strong foundation for future churn prediction models and targeted retention strategies.
+The findings establish a strong foundation for future churn prediction models, retention monitoring systems, and customer intervention strategies.

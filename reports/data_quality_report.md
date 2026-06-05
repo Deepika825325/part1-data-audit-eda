@@ -8,7 +8,7 @@ D2C Customer Churn Intelligence – Part 1: Data Audit & Exploratory Data Analys
 
 # 1. Overview
 
-A data quality assessment was performed across six datasets:
+A data quality assessment was conducted across six datasets:
 
 * customers
 * orders
@@ -17,7 +17,7 @@ A data quality assessment was performed across six datasets:
 * intervention_history
 * churn_labels
 
-The objective was to identify issues that could affect business analysis, churn modeling, or retention strategy design.
+The objective was to identify issues that could impact exploratory analysis, customer-level feature engineering, churn modeling, and business decision-making.
 
 ---
 
@@ -27,21 +27,22 @@ The majority of fields are complete; however, several columns contain missing va
 
 | Dataset   | Column       | Missing Count | Missing % |
 | --------- | ------------ | ------------: | --------: |
-| customers | loyalty_tier |          1386 |    57.75% |
+| customers | loyalty_tier |         1,386 |    57.75% |
 | customers | skin_type    |           401 |    16.71% |
 | orders    | rating       |            80 |     0.80% |
 
 ### Observations
 
-* The large proportion of missing values in `loyalty_tier` likely represents customers who are not enrolled in the loyalty program rather than a data collection issue.
-* Missing `skin_type` values may reduce the usefulness of customer segmentation analyses.
-* Missing ratings are limited and unlikely to materially impact analysis.
+* Missing values are concentrated in a small number of fields.
+* The high proportion of missing values in `loyalty_tier` likely reflects customers who are not enrolled in the loyalty program rather than a system defect.
+* Missing `skin_type` values may reduce segmentation effectiveness.
+* Missing ratings are minimal and unlikely to materially affect analysis.
 
 ### Recommendation
 
-* Treat missing loyalty tiers as a separate category ("Not Enrolled").
-* Retain missing skin type values as "Unknown" if used for modeling.
-* Leave rating values missing or impute cautiously depending on modeling requirements.
+* Create a dedicated **"Not Enrolled"** category for missing loyalty tiers.
+* Retain missing skin type values as **"Unknown"** where appropriate.
+* Leave ratings missing or apply business-approved imputation strategies during modeling.
 
 ---
 
@@ -52,15 +53,19 @@ A duplicate assessment was performed across transactional data.
 ### Findings
 
 * No exact duplicate records were identified.
-* 12 duplicate-like order records were detected using order identifiers containing the `_DUP` suffix.
+* Twelve duplicate-like order records were detected using order identifiers containing the `_DUP` suffix.
 
 ### Impact
 
-Duplicate transactional records can inflate revenue, purchase frequency, and customer activity metrics.
+Duplicate transaction records can inflate:
+
+* Revenue calculations
+* Purchase frequency metrics
+* Customer lifetime value estimates
 
 ### Recommendation
 
-Duplicate-like records should be reviewed with business stakeholders before inclusion in production models.
+Validate duplicate-like transactions with business stakeholders before model development and production reporting.
 
 ---
 
@@ -80,32 +85,42 @@ Validation checks were performed across key numerical fields.
 
 ### Observation
 
-No major data integrity violations were detected.
+No business-rule violations were detected.
 
 ### Recommendation
 
-Continue enforcing these validation rules during future data ingestion processes.
+Maintain these validation checks as part of future data ingestion and monitoring processes.
 
 ---
 
 # 5. Outlier Assessment
 
-Order value analysis identified unusually large transactions.
+Order value analysis identified a subset of unusually large transactions.
 
 ### Findings
 
-* Average order value: ₹743.90
-* Median order value: ₹597.06
-* Maximum order value: ₹24,789.38
-* 536 orders were identified as statistical outliers using the IQR method.
+| Metric                            |      Value |
+| --------------------------------- | ---------: |
+| Average Order Value               |    ₹743.90 |
+| Median Order Value                |    ₹597.06 |
+| Maximum Order Value               | ₹24,789.38 |
+| Statistical Outliers (IQR Method) |        536 |
+
+### Observation
+
+The difference between average and median order value indicates the presence of a right-skewed spending distribution.
 
 ### Impact
 
-Outliers may disproportionately influence averages and customer value calculations.
+High-value transactions can disproportionately influence:
+
+* Average revenue metrics
+* Customer value calculations
+* Model coefficients
 
 ### Recommendation
 
-Retain outliers for business analysis because they likely represent genuine high-value purchases, but consider robust scaling or transformation during modeling.
+Retain outliers for business analysis because they likely represent genuine purchases. Consider robust scaling, log transformation, or winsorization during model development.
 
 ---
 
@@ -115,75 +130,82 @@ Customer identifiers were validated across all datasets.
 
 | Dataset   | Records | Orphan Records |
 | --------- | ------: | -------------: |
-| orders    |   10009 |              0 |
-| tickets   |    1921 |              0 |
-| web       |    2400 |              0 |
-| campaigns |    2400 |              0 |
-| churn     |    2400 |              0 |
+| orders    |  10,009 |              0 |
+| tickets   |   1,921 |              0 |
+| web       |   2,400 |              0 |
+| campaigns |   2,400 |              0 |
+| churn     |   2,400 |              0 |
 
 ### Observation
 
-All datasets successfully join through `customer_id`.
+No orphan records were identified.
 
 ### Impact
 
-No customer records are lost during customer-level aggregation.
+All datasets can be successfully integrated into a unified customer-level analytical dataset without record loss.
 
 ---
 
 # 7. Date Consistency Assessment
 
-Snapshot date for churn prediction is:
+Reference snapshot date:
 
 **2025-09-30**
 
 ### Findings
 
 * 1,872 order records occur after the snapshot date.
-* These records represent future information relative to the prediction target.
+* These records contain information that would not have been available at prediction time.
 
 ### Impact
 
-Using post-snapshot transactions would introduce target leakage and artificially improve model performance.
+Including post-snapshot activity would introduce target leakage and produce unrealistically optimistic model performance.
 
 ### Recommendation
 
-Future modeling should exclude all records occurring after the snapshot date.
+Restrict all feature engineering activities to information available on or before the snapshot date.
 
 ---
 
 # 8. Potential Data Leakage Risks
 
-The following fields require careful treatment during model development:
+The following information sources require special handling during model development:
 
-| Feature                      | Risk           |
-| ---------------------------- | -------------- |
-| post-snapshot orders         | Target leakage |
-| future support interactions  | Target leakage |
-| future campaign interactions | Target leakage |
+| Feature Source           | Risk           |
+| ------------------------ | -------------- |
+| Post-snapshot orders     | Target leakage |
+| Future support activity  | Target leakage |
+| Future campaign activity | Target leakage |
+
+### Observation
+
+Target leakage represents the most significant modeling risk identified during this audit.
 
 ### Recommendation
 
-All features must be constructed using information available on or before the snapshot date.
+Implement strict temporal filtering and validate that all engineered features are generated using only information available at the snapshot date.
 
 ---
 
 # 9. Overall Assessment
 
-The datasets demonstrate generally good data quality and are suitable for exploratory analysis and churn modeling.
-
 ### Key Risks
 
-1. Missing loyalty tier values.
-2. Duplicate-like order records.
-3. High-value transaction outliers.
-4. Potential leakage from post-snapshot activity.
+1. Missing loyalty program information.
+2. Duplicate-like transaction records.
+3. High-value spending outliers.
+4. Potential leakage from future activity.
 
 ### Key Strengths
 
-1. Strong join integrity across datasets.
-2. Minimal missing values outside customer profile fields.
-3. No major invalid-value issues.
-4. Well-structured customer-level identifiers.
+1. Strong join integrity across all datasets.
+2. Minimal missing data outside customer profile attributes.
+3. No invalid-value violations.
+4. Consistent customer identifiers across sources.
+5. Suitable structure for customer-level aggregation and churn modeling.
 
-Overall data quality is sufficient for customer churn analysis after applying the recommended controls and validation procedures.
+### Data Quality Verdict
+
+The datasets demonstrate good overall quality and are suitable for exploratory analysis and churn modeling.
+
+The primary area requiring attention is temporal leakage prevention during feature engineering. Apart from this risk, the data is well-structured, internally consistent, and capable of supporting reliable customer churn analysis.
