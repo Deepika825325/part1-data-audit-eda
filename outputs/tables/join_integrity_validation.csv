@@ -1,0 +1,6 @@
+Dataset,Records,Unique Customer IDs,Orphan Customer IDs
+orders,10009,2400,0
+support_tickets,1921,1247,0
+web_events,2400,2400,0
+campaigns,2400,2400,0
+churn_labels,2400,2400,0

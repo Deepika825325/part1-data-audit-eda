@@ -1,8 +1,5 @@
-Validation Rule,Invalid Records
-Quantity < 1,0
-Discount > 100%,0
-Discount < 0%,0
-Negative Delivery Days,0
-Rating Outside 1-5,0
-Sentiment < -1,0
-Sentiment > 1,0
+Check,Invalid Records
+Quantity,0
+Discount,0
+Rating,0
+Sentiment,0

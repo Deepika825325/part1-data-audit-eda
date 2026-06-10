@@ -1,0 +1,5 @@
+Feature Source,Leakage Risk,Reason
+Orders,High,Contains post-snapshot transactions
+Support Tickets,Low,No post-snapshot records detected
+Campaign History,Low,Aligned to snapshot date
+Web Events,Low,Aligned to snapshot date
