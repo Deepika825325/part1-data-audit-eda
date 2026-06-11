@@ -1,0 +1,4 @@
+ticket_segment,churn_next_60d,churn_rate
+No Tickets,0.47181266261925414,47.18
+1-2 Tickets,0.4840182648401826,48.4
+3+ Tickets,0.34868421052631576,34.87
